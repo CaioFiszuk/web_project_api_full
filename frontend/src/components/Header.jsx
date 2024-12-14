@@ -45,5 +45,3 @@ function Header({userData, headerLink}) {
 }
 
 export default Header;
-
-//{userData ? <img src="../images/sandwich-menu.png" alt="sandwich-menu-icon"/> : ""}
