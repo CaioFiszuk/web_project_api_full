@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { currentUserContext } from "../contexts/CurrentUserContext.js";
-import EditProfile from "./EditProfile.js";
-import EditAvatar from "./EditAvatar.js";
-import NewCard from "./NewCard.js";
-import ImagePopup from "./ImagePopup.js";
-import CardList from "./CardList.js";
+import EditProfile from "./EditProfile.jsx";
+import EditAvatar from "./EditAvatar.jsx";
+import NewCard from "./NewCard.jsx";
+import ImagePopup from "./ImagePopup.jsx";
+import CardList from "./CardList.jsx";
 
 function Main({
   isEditProfilePopupOpen, 

@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useNavigate, Link } from "react-router-dom";
-import Header from "./Header.js";
-import Main from "./Main.js";
-import Footer from "./Footer.js";
-import Login from "./Login.js";
-import Register from "./Register.js";
-import ProtectedRoute from "./ProtectedRoute.js";
+import Header from "./Header.jsx";
+import Main from "./Main.jsx";
+import Footer from "./Footer.jsx";
+import Login from "./Login.jsx";
+import Register from "./Register.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 import * as auth from "../utils/auth.js";
 import * as token from "../utils/token.js";
 import { api } from "../utils/api.js";
 import  { currentUserContext }  from "../contexts/CurrentUserContext.js";
-import { removeToken } from "../utils/token";
+import { removeToken } from "../utils/token.js";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import  Validator  from "./Validator.js";
+import  Validator  from "./Validator.jsx";
 
 function NewCard({formName, isOpen, onClose, onAddPlaceSubmit}) {
     

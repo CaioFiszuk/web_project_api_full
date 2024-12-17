@@ -1,6 +1,6 @@
 import { useRef, useContext, useState } from "react";
 import { currentUserContext } from "../contexts/CurrentUserContext.js";
-import Validator from "./Validator.js";
+import Validator from "./Validator.jsx";
 
 function EditAvatar({ formName, isOpen, onClose }) {
   const userContext = useContext(currentUserContext);

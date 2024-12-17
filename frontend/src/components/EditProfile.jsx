@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { currentUserContext } from "../contexts/CurrentUserContext.js";
-import  Validator  from "./Validator.js";
+import  Validator  from "./Validator.jsx";
 
 function EditProfile({formName, isOpen, onClose}) {
     const userContext = useContext(currentUserContext);
