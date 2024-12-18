@@ -2,36 +2,38 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-module.exports.getUsers = (req, res) => {
+module.exports.getUsers = (req, res, next) => {
   User.find({})
-  .then(user => res.send({ data: user }))
-  .catch(err =>
-    res.status(500).send({ message: 'Erro no servidor' }));
+  .then((user) => {
+    if(!user){
+      const error = new Error('Esse no servidor');
+      error.statusCode = 500;
+      throw error;
+    }
+
+    res.send({ data: user })
+  })
+  .catch(next);
 };
 
-module.exports.getUser = (req, res) => {
-  User.findById(req.params.id)
+module.exports.getUser = (req, res, next) => {
+  User.findById(req.user.id)
   .orFail(()=>{
     const error = new Error('Esse usuário não existe');
     error.statusCode = 404;
     throw error;
   })
   .then(user => res.send({ data: user }))
-  .catch(err =>  {
-    const statusCode = err.statusCode || 500;
-    const message = statusCode === 500
-      ? 'Houve um erro no servidor interno'
-      : err.message;
-
-    res.status(statusCode).send({ message });
-  });
+  .catch(next);
 };
 
-module.exports.createUser = (req, res) => {
+module.exports.createUser = (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).send({ message: 'Dados inválidos' });
+    const error = new Error('Dados Inválidos');
+    error.statusCode = 400;
+    throw error;
   }
 
   bcrypt.hash(password, 10)
@@ -40,7 +42,7 @@ module.exports.createUser = (req, res) => {
     password: hash
   }))
   .then(user => res.status(201).send({ data: user }))
-  .catch(err => res.status(500).send({ message: 'Erro no servidor ao criar o usuário.' }));
+  .catch(next);
 };
 
 
@@ -80,13 +82,15 @@ module.exports.updateUserAvatar = (req, res) => {
  });
 }
 
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email } = req.body;
 
   User.findOne({ email }).select('+password')
   .then((user) => {
     if (!user) {
-      return Promise.reject(new Error('E-mail ou senha incorretos'));
+      const error = new Error('E-mail ou senha incorretos');
+      error.statusCode = 401;
+      throw error;
     }
 
     const token = jwt.sign({ id: user._id }, '2222', { expiresIn: '7d' });
@@ -94,9 +98,5 @@ module.exports.login = (req, res) => {
     return res.status(200).json({ token });
 
   })
-  .catch((err) => {
-    res
-      .status(401)
-      .send({ message: err.message });
-  });
+  .catch(next);
 }
