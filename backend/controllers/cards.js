@@ -24,6 +24,10 @@ module.exports.createCard = (req, res) => {
 
 module.exports.deleteCard = (req, res) => {
   const { cardId } = req.params;
+  Card.findById(cardId).then(card => {
+    card.owner._id !== req.user._id;
+
+  });
 
   Card.findByIdAndDelete(cardId)
   .orFail(()=>{

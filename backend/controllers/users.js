@@ -28,7 +28,7 @@ module.exports.getUser = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, ...data } = req.body;
 
   if (!email || !password) {
     const error = new Error('Dados Inválidos');
@@ -39,7 +39,8 @@ module.exports.createUser = (req, res, next) => {
   bcrypt.hash(password, 10)
   .then(hash => User.create({
     email,
-    password: hash
+    password: hash,
+    ...data
   }))
   .then(user => res.status(201).send({ data: user }))
   .catch(next);
@@ -82,21 +83,30 @@ module.exports.updateUserAvatar = (req, res) => {
  });
 }
 
-module.exports.login = (req, res, next) => {
-  const { email } = req.body;
+module.exports.login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
 
-  User.findOne({ email }).select('+password')
-  .then((user) => {
+    const user = await User.findOne({ email }).select('+password');
+    
     if (!user) {
       const error = new Error('E-mail ou senha incorretos');
       error.statusCode = 401;
       throw error;
     }
 
-    const token = jwt.sign({ id: user._id }, '2222', { expiresIn: '7d' });
+    const matched = await bcrypt.compare(password, user.password);
+    if (!matched) {
+      const error = new Error('E-mail ou senha incorretos');
+      error.statusCode = 401;
+      throw error;
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'default_secret', { expiresIn: '7d' });
 
     return res.status(200).json({ token });
 
-  })
-  .catch(next);
-}
+  } catch (err) {
+    next(err);
+  }
+};

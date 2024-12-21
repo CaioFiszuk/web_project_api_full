@@ -172,7 +172,7 @@ function App() {
    });
 
 
-  const jwt = token.getToken();
+    const jwt = token.getToken();
     
   if (jwt) {
     auth
