@@ -24,21 +24,27 @@ module.exports.createCard = (req, res) => {
 
 module.exports.deleteCard = (req, res) => {
   const { cardId } = req.params;
-  Card.findById(cardId).then(card => {
-    card.owner._id !== req.user._id;
 
-  });
-
-  Card.findByIdAndDelete(cardId)
-  .orFail(()=>{
-    const error = new Error('O cartão não foi encontado');
-    error.statusCode = 404;
-    throw error;
-  })
-    .then((card) => {
-      res.send({ data: card });
+  Card.findById(cardId)
+    .orFail(() => {
+      const error = new Error('O cartão não foi encontrado');
+      error.statusCode = 404;
+      throw error;
     })
-    .catch((err) =>   {
+    .then((card) => {
+
+      if (String(card.owner._id) !== String(req.user._id)) {
+        const error = new Error('Você não tem permissão para excluir este cartão');
+        error.statusCode = 403;
+        throw error;
+      }
+
+      return Card.findByIdAndDelete(cardId);
+    })
+    .then((deletedCard) => {
+      res.send({ data: deletedCard });
+    })
+    .catch((err) => {
       const statusCode = err.statusCode || 500;
       const message = statusCode === 500
         ? 'Houve um erro no servidor interno'
@@ -47,6 +53,7 @@ module.exports.deleteCard = (req, res) => {
       res.status(statusCode).send({ message });
     });
 };
+
 
 module.exports.likeCard = (req, res) => {
   Card.findByIdAndUpdate(

@@ -48,6 +48,12 @@ module.exports.createUser = (req, res, next) => {
 
 
 module.exports.updateUser = (req, res) => {
+  if (req.user._id !== req.params.id) {
+    const error = new Error('Você não tem permissão para editar esse perfil');
+    error.statusCode = 403;
+    throw error;
+  }
+
    User.findByIdAndUpdate(req.user._id, { name: req.body.name })
    .orFail(()=>{
     const error = new Error('Esse usuário não existe');
@@ -66,6 +72,12 @@ module.exports.updateUser = (req, res) => {
 }
 
 module.exports.updateUserAvatar = (req, res) => {
+  if (req.user._id !== req.params.id) {
+    const error = new Error('Você não tem permissão para editar esse perfil');
+    error.statusCode = 403;
+    throw error;
+  }
+
   User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar })
   .orFail(()=>{
    const error = new Error('Esse usuário não existe');
@@ -88,7 +100,7 @@ module.exports.login = async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email }).select('+password');
-    
+
     if (!user) {
       const error = new Error('E-mail ou senha incorretos');
       error.statusCode = 401;
