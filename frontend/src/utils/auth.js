@@ -1,4 +1,6 @@
-export const BASE_URL = "http://localhost:3000";
+//export const BASE_URL = "http://localhost:3000";
+
+export const BASE_URL = "https://web-project-api-full-e1h6.onrender.com";
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/users/signup`, {
