@@ -1,3 +1,5 @@
+import * as token from "./token.js";
+
 class Api {
     constructor(options) {
       this._baseURL = options.baseUrl;
@@ -119,9 +121,9 @@ class Api {
   }
   
   const api = new Api({
-    baseUrl: "https://around.nomoreparties.co/v1/web-ptbr-cohort-12",
+    baseUrl: "http://localhost:3000",
     headers: {
-      authorization: "ff7f8eb8-527b-4454-9ba9-18449ff2bb6e",
+      authorization: token.getToken(),
       "Content-Type": "application/json",
     },
   });

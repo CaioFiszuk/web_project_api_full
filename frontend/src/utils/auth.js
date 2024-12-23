@@ -1,7 +1,7 @@
-export const BASE_URL = "https://se-register-api.en.tripleten-services.com/v1";
+export const BASE_URL = "http://localhost:3000";
 
 export const register = (email, password) => {
-  return fetch(`${BASE_URL}/signup`, {
+  return fetch(`${BASE_URL}/users/signup`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -13,13 +13,13 @@ export const register = (email, password) => {
       if(!res.ok){
         return Promise.reject("400 - um dos campos foi preenchido incorretamente");
       }
-
+      
       return res.json();
     })
 };
 
 export const authorize = (email, password) => {
-  return fetch(`${BASE_URL}/signin`, {
+  return fetch(`${BASE_URL}/users/signin`, {
     method: "POST",
     headers: {
       Accept: "application/json",
