@@ -102,10 +102,10 @@ function App() {
   }
 
   const handleUpdateUser = async (data) => {
+
     try {
       const newData = await api.editProfile(data.name, data.about);
-      setCurrentUser(newData);
-      closeAllPopups();
+      setCurrentUser(newData);      closeAllPopups();
     } catch (error) {
       console.error(error);
     }
@@ -163,24 +163,27 @@ function App() {
   }
 
   useEffect(()=>{
-    api.getUserInfo().then(data=>{
-      setCurrentUser(data);
-    });
 
-    api.getInitialCards().then(data=>{
-      setCards(data);
-   });
-
-
-    const jwt = token.getToken();
+  const jwt = token.getToken();
     
   if (jwt) {
+
+    /*api.getUserInfo().then(data=>{
+      setCurrentUser(data);
+    });*/
+
+   /* api.getInitialCards().then(data=>{
+      setCards(data);
+   });*/
+
     auth
     .getUserInfo(jwt)
     .then(( data ) => {
       setUserData(data.data.email);
       setIsLoggedIn(true);
       navigate("/");
+      setCurrentUser(data);
+      console.log(data)
     })
     .catch(console.error);
   }

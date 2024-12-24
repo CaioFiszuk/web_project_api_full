@@ -108,13 +108,14 @@ module.exports.login = async (req, res, next) => {
     }
 
     const matched = await bcrypt.compare(password, user.password);
+    
     if (!matched) {
       const error = new Error('E-mail ou senha incorretos');
       error.statusCode = 401;
       throw error;
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'default_secret', { expiresIn: '7d' });
+    const token = jwt.sign({ id: user._id }, '2222', { expiresIn: '7d' });
 
     return res.status(200).json({ token });
 

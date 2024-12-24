@@ -38,7 +38,7 @@ function Main({
               alt="user"
               className="profile__image"
               id="avatar"
-              style={{ backgroundImage: `url(${currentUser.avatar})` }}
+              style={{ backgroundImage: `url(${currentUser.data.avatar})` }}
             />
             <img
               src="../images/edit_avatar_sign.png"
@@ -48,7 +48,7 @@ function Main({
           </div>
           <div className="profile__info">
             <div className="profile__name-container">
-              <h2 className="profile__name">{currentUser.name}</h2>
+              <h2 className="profile__name">{currentUser.data.name}</h2>
               <img
                 src="../images/edit-sign.png"
                 alt="edit sign"
@@ -57,7 +57,7 @@ function Main({
                 onClick={() => onEditProfileClick()}
               />
             </div>
-            <p className="profile__about">{currentUser.about}</p>
+            <p className="profile__about">{currentUser.data.about}</p>
           </div>
           <button type="button" className="profile__add-button"               onClick={() => onAddPlaceClick()}>
             <img

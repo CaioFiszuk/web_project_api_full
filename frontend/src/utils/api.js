@@ -6,18 +6,6 @@ class Api {
       this._headers = options.headers;
     }
   
-    getUserInfo() {
-      return fetch(`${this._baseURL}/users/me`, {
-        headers: this._headers,
-      }).then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-  
-        return Promise.reject(`Error: ${res.status}`);
-      });
-    }
-  
     editProfile(name, about) {
       return fetch(`${this._baseURL}/users/me`, {
         method: "PATCH",

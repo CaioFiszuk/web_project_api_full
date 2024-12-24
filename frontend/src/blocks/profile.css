@@ -2,7 +2,7 @@
   margin: 40px 0 50px;
   display: flex;
   align-items: center;
-  max-width: 880px;
+  width: 880px;
 }
 
 .profile__image-container {

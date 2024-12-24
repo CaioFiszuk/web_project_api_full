@@ -79,3 +79,25 @@ export const getUserInfo = (token) => {
     return res.json();
   });
 }
+
+export const editProfile = (token, name, about) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: "PATCH",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      name: `${name}`,
+      about: `${about}`,
+    }),
+  }).then((res) => {
+    if(!res.ok){
+
+      return Promise.reject("401 - Não Autorizado");
+    }
+
+    return res.json();
+  });
+}
