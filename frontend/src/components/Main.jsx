@@ -34,7 +34,7 @@ function Main({
         <section className="profile">
           <div className="profile__image-container" onClick={() => onEditAvatarClick()}>
             <img
-              src={currentUser.avatar}
+              src={currentUser.data.avatar}
               alt="user"
               className="profile__image"
               id="avatar"

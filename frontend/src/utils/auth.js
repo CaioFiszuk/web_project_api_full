@@ -1,6 +1,6 @@
-//export const BASE_URL = "http://localhost:3000";
+export const BASE_URL = "http://localhost:3000";
 
-export const BASE_URL = "https://web-project-api-full-e1h6.onrender.com";
+//export const BASE_URL = "https://web-project-api-full-e1h6.onrender.com";
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/users/signup`, {
@@ -74,28 +74,6 @@ export const getUserInfo = (token) => {
       }
 
       return Promise.reject(errorMessage);
-    }
-
-    return res.json();
-  });
-}
-
-export const editProfile = (token, name, about) => {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: "PATCH",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      name: `${name}`,
-      about: `${about}`,
-    }),
-  }).then((res) => {
-    if(!res.ok){
-
-      return Promise.reject("401 - Não Autorizado");
     }
 
     return res.json();

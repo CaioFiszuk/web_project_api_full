@@ -10,8 +10,8 @@ function EditProfile({formName, isOpen, onClose}) {
     const [errorNameMessage, setErrorNameMessage] = useState("");
     const [errorDescriptionMessage, setErrorDescriptionMessage] = useState("");
 
-    const [name, setName] = useState(currentUser.name);
-    const [description, setDescription] = useState(currentUser.about);
+    const [name, setName] = useState(currentUser?.name || "");
+    const [description, setDescription] = useState(currentUser?.about || "");
 
     const handleNameChange = (event) => {
       const input = event.target;

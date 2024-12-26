@@ -102,14 +102,15 @@ function App() {
   }
 
   const handleUpdateUser = async (data) => {
-
     try {
       const newData = await api.editProfile(data.name, data.about);
-      setCurrentUser(newData);      closeAllPopups();
+      setCurrentUser(newData);      
+      closeAllPopups();
     } catch (error) {
       console.error(error);
     }
   };
+  
 
   const handleAddPlaceSubmit = async (data) => {
     try {
@@ -122,6 +123,7 @@ function App() {
   }
 
   const handleUpdateAvatar = async (data) => {
+    console.log(data);
     try{
       const newData = await api.updateAvatar(data.avatar);
       setCurrentUser(newData);
@@ -168,10 +170,6 @@ function App() {
     
   if (jwt) {
 
-    /*api.getUserInfo().then(data=>{
-      setCurrentUser(data);
-    });*/
-
    /* api.getInitialCards().then(data=>{
       setCards(data);
    });*/
@@ -183,12 +181,11 @@ function App() {
       setIsLoggedIn(true);
       navigate("/");
       setCurrentUser(data);
-      console.log(data)
     })
     .catch(console.error);
   }
 
-  }, [navigate]);
+  }, [navigate, currentUser]);
    
   return (
     <div className="page">
