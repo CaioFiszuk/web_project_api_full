@@ -26,6 +26,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState();
 
   const [currentUser, setCurrentUser] = useState({});
+  //const [currentUser, setCurrentUser] = useContext(currentUserContext);
 
   const [cards, setCards] = useState([]);
 
@@ -114,7 +115,7 @@ function App() {
 
   const handleAddPlaceSubmit = async (data) => {
     try {
-      const newCard = await api.addCard(data.name, data.link);
+      const newCard = await api.addCard(data.name, data.link, currentUser.data._id);
       setCards([newCard, ...cards]);
       closeAllPopups();
     } catch(error) {
@@ -123,7 +124,6 @@ function App() {
   }
 
   const handleUpdateAvatar = async (data) => {
-    console.log(data);
     try{
       const newData = await api.updateAvatar(data.avatar);
       setCurrentUser(newData);
@@ -165,28 +165,27 @@ function App() {
   }
 
   useEffect(()=>{
+  
+    const jwt = token.getToken();
+      
+    if (jwt) {
 
-  const jwt = token.getToken();
-    
-  if (jwt) {
+      auth
+      .getUserInfo(jwt)
+      .then(( data ) => {
+        setUserData(data.data.email);
+        setIsLoggedIn(true);
+        setCurrentUser(data);
+        navigate("/");
+        api.getInitialCards().then(data=>{
+          setCards(data.data);
+      });
+      })
+      .catch(console.error);
+    }
+  
+    }, [navigate]); 
 
-   /* api.getInitialCards().then(data=>{
-      setCards(data);
-   });*/
-
-    auth
-    .getUserInfo(jwt)
-    .then(( data ) => {
-      setUserData(data.data.email);
-      setIsLoggedIn(true);
-      navigate("/");
-      setCurrentUser(data);
-    })
-    .catch(console.error);
-  }
-
-  }, [navigate, currentUser]);
-   
   return (
     <div className="page">
 

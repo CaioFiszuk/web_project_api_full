@@ -18,7 +18,8 @@ module.exports.createCard = (req, res) => {
   Card.create({ name, link, owner })
     .then((card) => res.send({ data: card }))
     .catch((err) =>
-      res.status(500).send({ message: "Erro no servidor ao criar um card" })
+      res.status(500).send({ message: "Erro no servidor ao criar um card" + err })
+
     );
 };
 
@@ -33,7 +34,7 @@ module.exports.deleteCard = (req, res) => {
     })
     .then((card) => {
 
-      if (String(card.owner._id) !== String(req.user._id)) {
+      if (card.owner.toString() !== req.user.id) {
         const error = new Error('Você não tem permissão para excluir este cartão');
         error.statusCode = 403;
         throw error;

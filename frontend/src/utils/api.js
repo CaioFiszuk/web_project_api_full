@@ -35,13 +35,14 @@ class Api {
       });
     }
   
-    addCard(name, link) {
+    addCard(name, link, owner) {
       return fetch(`${this._baseURL}/cards`, {
         method: "POST",
         headers: this._headers,
         body: JSON.stringify({
           name: `${name}`,
           link: `${link}`,
+          owner: `${owner}`
         }),
       }).then((res) => {
         if (res.ok) {
@@ -49,6 +50,10 @@ class Api {
         }
   
         return Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((error) => {
+        console.error("Error adding card:", error);
+        throw error;
       });
     }
   

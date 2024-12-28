@@ -1,6 +1,6 @@
 function Card({card, onCardClick, onCardDelete, onCardLike, userId}){
 
-    const isOwn = card.owner._id === userId;
+    const isOwn = card.owner === userId;
 
     return(
         <div 

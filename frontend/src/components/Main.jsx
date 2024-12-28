@@ -72,7 +72,7 @@ function Main({
         <CardList 
           cards={cards} 
           onCardClick={onCardClick} 
-          currentUserId={currentUser._id}
+          currentUserId={currentUser.data._id}
           onCardLike={onCardLike}
           onCardDelete={onCardDelete}
         />

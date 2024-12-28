@@ -79,3 +79,15 @@ export const getUserInfo = (token) => {
     return res.json();
   });
 }
+
+export const getInitialCards = () => {
+  return fetch(`${this._baseURL}/cards`, {
+    headers: this._headers,
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+
+    return Promise.reject(`Error: ${res.status}`);
+  });
+}

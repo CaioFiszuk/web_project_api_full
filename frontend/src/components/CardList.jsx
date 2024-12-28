@@ -31,7 +31,7 @@ function CardList({
       {
         cards.map((card) => (
           <Card 
-          key={card.id} 
+          key={card._id} 
           card={card} 
           onCardClick={handleClick} 
           onCardDelete={handleDeleteClick} 

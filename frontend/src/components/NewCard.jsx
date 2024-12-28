@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { currentUserContext } from "../contexts/CurrentUserContext.js";
 import  Validator  from "./Validator.jsx";
 
 function NewCard({formName, isOpen, onClose, onAddPlaceSubmit}) {
-    
+
+    const { currentUser } = useContext(currentUserContext);
+  
     const [isValid, setIsValid] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorCardTitleMessage, setErrorCardTitleMessage] = useState("");
@@ -50,7 +53,7 @@ function NewCard({formName, isOpen, onClose, onAddPlaceSubmit}) {
         event.preventDefault(); 
     
         setIsLoading(true);
-        onAddPlaceSubmit({name:cardTitle, link:imageLink}).finally(()=>setIsLoading(false));
+        onAddPlaceSubmit({name:cardTitle, link:imageLink, owner:currentUser.data._id}).finally(()=>setIsLoading(false));
 
       };
 
