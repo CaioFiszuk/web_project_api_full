@@ -143,7 +143,7 @@ function App() {
     }
 
     await api.getInitialCards().then(data=>{
-      setCards(data);
+      setCards(data.data);
    });
   }
 

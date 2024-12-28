@@ -24,7 +24,7 @@ function Card({card, onCardClick, onCardDelete, onCardLike, userId}){
           <div className="element__props">
             <p className="element__title">{card.name}</p>
             {
-              card.likes.some(i => i._id === userId) ?
+              card.likes.some(i => i._id !== userId) ?
               <img
                 src="../images/like-dark.png"
                 alt="dark heart icon"
