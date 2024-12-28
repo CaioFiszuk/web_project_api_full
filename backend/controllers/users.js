@@ -49,7 +49,15 @@ module.exports.createUser = (req, res, next) => {
 
 module.exports.updateUser = (req, res) => {
 
-   User.findByIdAndUpdate(req.user.id, { name: req.body.name, about: req.body.about })
+   User.findByIdAndUpdate(
+    req.user.id,
+    { name: req.body.name, about: req.body.about },
+    {
+      new: true,
+      runValidators: true,
+      upsert: true
+  }
+  )
    .orFail(()=>{
     const error = new Error('Esse usuário não existe');
     error.statusCode = 404;

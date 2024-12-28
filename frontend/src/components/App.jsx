@@ -26,7 +26,6 @@ function App() {
   const [selectedCard, setSelectedCard] = useState();
 
   const [currentUser, setCurrentUser] = useState({});
-  //const [currentUser, setCurrentUser] = useContext(currentUserContext);
 
   const [cards, setCards] = useState([]);
 
@@ -105,7 +104,7 @@ function App() {
   const handleUpdateUser = async (data) => {
     try {
       const newData = await api.editProfile(data.name, data.about);
-      setCurrentUser(newData);      
+      setCurrentUser(newData);
       closeAllPopups();
     } catch (error) {
       console.error(error);
@@ -115,8 +114,9 @@ function App() {
 
   const handleAddPlaceSubmit = async (data) => {
     try {
-      const newCard = await api.addCard(data.name, data.link, currentUser.data._id);
-      setCards([newCard, ...cards]);
+      await api.addCard(data.name, data.link, currentUser.data._id);
+      const updatedCards = await api.getInitialCards();
+      setCards(updatedCards.data); 
       closeAllPopups();
     } catch(error) {
       console.error(error);
