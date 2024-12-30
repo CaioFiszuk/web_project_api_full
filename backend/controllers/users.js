@@ -17,6 +17,7 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getUser = (req, res, next) => {
+  console.log(req.user.id);
   User.findById(req.user.id)
   .orFail(()=>{
     const error = new Error('Esse usuário não existe');
@@ -48,6 +49,13 @@ module.exports.createUser = (req, res, next) => {
 
 
 module.exports.updateUser = (req, res) => {
+    if (req.user.id !== req.user.id) {
+      const error = new Error('Você não tem permissão para editar esse perfil');
+      error.statusCode = 403;
+      throw error;
+    }
+
+    //console.log(req.user.id);
 
    User.findByIdAndUpdate(
     req.user.id,
@@ -56,7 +64,7 @@ module.exports.updateUser = (req, res) => {
       new: true,
       runValidators: true,
       upsert: true
-  }
+    }
   )
    .orFail(()=>{
     const error = new Error('Esse usuário não existe');
@@ -75,19 +83,29 @@ module.exports.updateUser = (req, res) => {
 }
 
 module.exports.updateUserAvatar = (req, res) => {
-  /*if (req.user._id !== req.params.id) {
+  if (req.user.id !== req.user.id) {
     const error = new Error('Você não tem permissão para editar esse perfil');
     error.statusCode = 403;
     throw error;
-  }*/
+  }
 
-  User.findByIdAndUpdate(req.user.id, { avatar: req.body.avatar })
+  User.findByIdAndUpdate(
+    req.user.id,
+    { avatar: req.body.avatar },
+    {
+      new: true,
+      runValidators: true,
+      upsert: true
+    }
+  )
   .orFail(()=>{
    const error = new Error('Esse usuário não existe');
    error.statusCode = 404;
    throw error;
  })
-  .then(user => res.send({ data: user }))
+  .then(user => res.send({
+    data: user
+  }))
   .catch(err =>  {
    const statusCode = err.statusCode || 500;
    const message = statusCode === 500
@@ -104,6 +122,8 @@ module.exports.login = async (req, res, next) => {
 
     const user = await User.findOne({ email }).select('+password');
 
+    const idString = user._id.toString()
+
     if (!user) {
       const error = new Error('E-mail ou senha incorretos');
       error.statusCode = 401;
@@ -118,7 +138,7 @@ module.exports.login = async (req, res, next) => {
       throw error;
     }
 
-    const token = jwt.sign({ id: user._id }, '2222', { expiresIn: '7d' });
+    const token = jwt.sign({ id: idString }, '2222', { expiresIn: '7d' });
 
     return res.status(200).json({ token });
 
