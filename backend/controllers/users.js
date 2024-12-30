@@ -17,7 +17,6 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getUser = (req, res, next) => {
-  console.log(req.user.id);
   User.findById(req.user.id)
   .orFail(()=>{
     const error = new Error('Esse usuário não existe');
@@ -54,8 +53,6 @@ module.exports.updateUser = (req, res) => {
       error.statusCode = 403;
       throw error;
     }
-
-    //console.log(req.user.id);
 
    User.findByIdAndUpdate(
     req.user.id,
@@ -122,8 +119,6 @@ module.exports.login = async (req, res, next) => {
 
     const user = await User.findOne({ email }).select('+password');
 
-    const idString = user._id.toString()
-
     if (!user) {
       const error = new Error('E-mail ou senha incorretos');
       error.statusCode = 401;
@@ -138,7 +133,7 @@ module.exports.login = async (req, res, next) => {
       throw error;
     }
 
-    const token = jwt.sign({ id: idString }, '2222', { expiresIn: '7d' });
+    const token = jwt.sign({ id: user._id }, '2222', { expiresIn: '7d' });
 
     return res.status(200).json({ token });
 

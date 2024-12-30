@@ -5,11 +5,18 @@ class Api {
       this._baseURL = options.baseUrl;
       this._headers = options.headers;
     }
+
+    _getAuthorizationHeaders() {
+      return {
+        ...this._headers,
+        authorization: `Bearer ${token.getToken()}`,
+      }
+    }
   
     editProfile(name, about) {
       return fetch(`${this._baseURL}/users/me`, {
         method: "PATCH",
-        headers: this._headers,
+        headers: this._getAuthorizationHeaders(),
         body: JSON.stringify({
           name: `${name}`,
           about: `${about}`,
@@ -25,7 +32,7 @@ class Api {
   
     getInitialCards() {
       return fetch(`${this._baseURL}/cards`, {
-        headers: this._headers,
+        headers: this._getAuthorizationHeaders(),
       }).then((res) => {
         if (res.ok) {
           return res.json();
@@ -38,7 +45,7 @@ class Api {
     addCard(name, link, owner) {
       return fetch(`${this._baseURL}/cards`, {
         method: "POST",
-        headers: this._headers,
+        headers: this._getAuthorizationHeaders(),
         body: JSON.stringify({
           name: `${name}`,
           link: `${link}`,
@@ -60,7 +67,7 @@ class Api {
     toLike(id) {
       return fetch(`${this._baseURL}/cards/${id}/likes`, {
         method: "PUT",
-        headers: this._headers,
+        headers: this._getAuthorizationHeaders(),
       }).then((res) => {
         if (res.ok) {
           return res.json();
@@ -73,7 +80,7 @@ class Api {
     toDislike(id) {
       return fetch(`${this._baseURL}/cards/${id}/likes`, {
         method: "DELETE",
-        headers: this._headers,
+        headers: this._getAuthorizationHeaders(),
       }).then((res) => {
         if (res.ok) {
           return res.json();
@@ -86,7 +93,7 @@ class Api {
     deleteCard(id) {
       return fetch(`${this._baseURL}/cards/${id}`, {
         method: "DELETE",
-        headers: this._headers,
+        headers: this._getAuthorizationHeaders(),
       }).then((res) => {
         if (res.ok) {
           return res.json();
@@ -99,7 +106,7 @@ class Api {
     updateAvatar(avatar) {
       return fetch(`${this._baseURL}/users/me/avatar`, {
         method: "PATCH",
-        headers: this._headers,
+        headers: this._getAuthorizationHeaders(),
         body: JSON.stringify({
           avatar: `${avatar}`,
         }),
@@ -116,7 +123,6 @@ class Api {
   const api = new Api({
     baseUrl: "http://localhost:3000",
     headers: {
-      authorization: `Bearer ${token.getToken()}`,
       "Content-Type": "application/json",
     },
   });

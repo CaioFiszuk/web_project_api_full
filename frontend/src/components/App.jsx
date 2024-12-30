@@ -25,7 +25,7 @@ function App() {
 
   const [selectedCard, setSelectedCard] = useState();
 
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
 
   const [cards, setCards] = useState([]);
 
@@ -104,7 +104,6 @@ function App() {
   const handleUpdateUser = async (data) => {
     try {
       const newData = await api.editProfile(data.name, data.about);
-      console.log(newData);
       setCurrentUser(newData);
       closeAllPopups();
     } catch (error) {
@@ -174,7 +173,6 @@ function App() {
       auth
       .getUserInfo(jwt)
       .then(( data ) => {
-        //console.log(data)
         setUserData(data.data.email);
         setIsLoggedIn(true);
         setCurrentUser(data);
