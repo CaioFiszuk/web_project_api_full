@@ -82,6 +82,11 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 911px) {
+
+  .profile {
+    width: 580px;
+  }
+
   .profile__name {
     font-size: 22px;
     line-height: 27px;
@@ -93,6 +98,7 @@
     flex-direction: column;
     align-items: center;
     margin: 42px 19px 36px;
+    width: 350px;
   }
 
   .profile__image {
