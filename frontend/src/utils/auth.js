@@ -1,6 +1,4 @@
-export const BASE_URL = "http://localhost:3000";
-
-//export const BASE_URL = "https://web-project-api-full-e1h6.onrender.com";
+export const BASE_URL = "https://web-project-api-full-e1h6.onrender.com";
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/users/signup`, {
@@ -77,17 +75,5 @@ export const getUserInfo = (token) => {
     }
 
     return res.json();
-  });
-}
-
-export const getInitialCards = () => {
-  return fetch(`${this._baseURL}/cards`, {
-    headers: this._headers,
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-
-    return Promise.reject(`Error: ${res.status}`);
   });
 }

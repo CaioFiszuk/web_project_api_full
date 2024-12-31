@@ -121,7 +121,7 @@ class Api {
   }
   
   const api = new Api({
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://web-project-api-full-e1h6.onrender.com",
     headers: {
       "Content-Type": "application/json",
     },

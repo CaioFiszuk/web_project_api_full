@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+require("dotenv").config();
 
 module.exports = (req, res, next) => {
 
@@ -17,7 +18,7 @@ module.exports = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, '2222');
+    payload = jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
 
     const err = new Error('Não autorizado');
