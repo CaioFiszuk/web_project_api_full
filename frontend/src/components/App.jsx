@@ -134,18 +134,19 @@ function App() {
   }
 
   const handleCardLike = async (card) => {
-    const isLiked = card.likes.some(user => user._id === currentUser._id);
-    
-    if(isLiked) {
-      await api.toDislike(card._id).catch(error=>console.log(error));
-    }else{
-      await api.toLike(card._id).catch(error=>console.log(error));
+    const isLiked = card.likes.some(item => item === currentUser.data._id);
+  
+    if (isLiked) {
+      await api.toDislike(card._id).catch(error => console.log(error));
+    } else {
+      await api.toLike(card._id).catch(error => console.log(error));
     }
-
-    await api.getInitialCards().then(data=>{
+  
+    await api.getInitialCards().then(data => {
       setCards(data.data);
-   });
-  }
+    });
+  };
+  
 
   const handleCardDelete = async (card) => {
 
