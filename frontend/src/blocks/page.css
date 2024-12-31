@@ -1,6 +1,6 @@
 .page {
   color: #ffffff;
-  background-color: #000000;
+  background-color: gray;
   display: flex;
   flex-direction: column;
   align-items: center;
