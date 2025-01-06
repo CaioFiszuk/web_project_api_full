@@ -24,6 +24,8 @@ module.exports = (req, res, next) => {
     const err = new Error('Não autorizado');
     err.statusCode = 403;
 
+    console.error(e);
+
     next(err);
   }
 
