@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require("mongoose");
+const auth = require('./middleware/auth');
 const cors = require("cors");
 const userRoutes = require('./routes/users');
 const cardsRoutes = require('./routes/cards');
@@ -20,7 +21,17 @@ const { PORT = 3000 } = process.env;
 
 app.use(requestLogger);
 
+app.use(function (req, res, next) {
+
+  if (req.originalUrl === '/users/signin' || req.originalUrl === '/users/signup') {
+    return next();
+  } else {
+    return auth(req, res, next);
+  }
+});
+
 app.use('/users', userRoutes);
+
 app.use('/cards', cardsRoutes);
 
 app.use(errorLogger);
@@ -31,5 +42,4 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode).send({ message: err.message });
 });
 
-app.listen(PORT, () => console.log(`O servidor está rodando na porta: ${PORT}`)
-);
+app.listen(PORT, () => console.log(`O servidor está rodando na porta: ${PORT}`));
